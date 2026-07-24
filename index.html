@@ -1220,6 +1220,32 @@ body{ display:block; }
 .foot-note{ margin-top:26px; font-size:12px; color:var(--text-dim); font-style:italic; text-align:center;}
 @media(max-width:820px){ .bento{ grid-template-columns:1fr;} .fgrid{ grid-template-columns:1fr;} }
 
+/* ===== Onboarding · spotlight tour ===== */
+#tour-mask{ position:fixed; inset:0; z-index:9998; display:none; background:transparent; }
+#tour-spot{ position:fixed; z-index:9999; display:none; border-radius:16px; pointer-events:none;
+  box-shadow:0 0 0 9999px rgba(15,31,61,0.74); border:2px solid rgba(255,255,255,0.95);
+  transition:top .4s cubic-bezier(.4,0,.2,1), left .4s cubic-bezier(.4,0,.2,1), width .4s cubic-bezier(.4,0,.2,1), height .4s cubic-bezier(.4,0,.2,1); }
+#tour-pop{ position:fixed; z-index:10000; display:none; width:344px; max-width:calc(100vw - 32px);
+  background:var(--bg); border-radius:18px; padding:20px 22px;
+  box-shadow:var(--neu-out), 0 24px 60px rgba(15,31,61,0.40);
+  transition:top .4s cubic-bezier(.4,0,.2,1), left .4s cubic-bezier(.4,0,.2,1); }
+#tour-pop.center{ top:50%!important; left:50%!important; transform:translate(-50%,-50%); width:440px; text-align:center; }
+#tour-pop .tp-step{ font-size:11px; font-weight:800; letter-spacing:.6px; text-transform:uppercase; color:var(--indigo-text); }
+#tour-pop .tp-title{ font-size:19px; font-weight:800; color:var(--navy); margin:4px 0 8px; line-height:1.15; }
+#tour-pop .tp-text{ font-size:13.5px; line-height:1.5; color:var(--text-sub); font-weight:500; }
+#tour-pop .tp-text b{ color:var(--text); }
+#tour-pop .tp-foot{ display:flex; align-items:center; gap:8px; margin-top:18px; }
+#tour-pop.center .tp-foot{ justify-content:center; }
+#tour-pop .tp-dots{ display:flex; align-items:center; gap:6px; flex:1; }
+#tour-pop.center .tp-dots{ flex:none; }
+#tour-pop .tp-dot{ width:7px; height:7px; border-radius:50%; background:#c7cfde; transition:.3s; }
+#tour-pop .tp-dot.on{ background:var(--indigo); width:18px; border-radius:99px; }
+#tour-launch{ position:fixed; right:22px; bottom:22px; z-index:9990; cursor:pointer; border:none;
+  background:var(--navy); color:#fff; font-weight:800; font-size:13px; padding:12px 18px; border-radius:99px;
+  display:flex; align-items:center; gap:8px; box-shadow:0 12px 32px rgba(15,31,61,0.42), inset 0 1px 0 rgba(255,255,255,0.08); }
+#tour-launch i{ color:var(--orange); }
+#tour-launch:hover{ transform:translateY(-1px); }
+
 </style>
 </head>
 <body>
@@ -1246,7 +1272,7 @@ body{ display:block; }
   </div>
 
   <!-- ===== 3 AVISOS DE VALIDACIÓN (ME-HU3) — patrón de alerta del sistema ===== -->
-  <div class="avisos">
+  <div class="avisos" data-tour="avisos">
     <div class="aviso aviso--danger">
       <div class="ai"><i class="fa-solid fa-ban"></i></div>
       <div class="abody">
@@ -1286,7 +1312,7 @@ body{ display:block; }
         <div class="f"><div class="fl"><i class="fa-solid fa-hashtag"></i> RUC <i class="fa-solid fa-lock lock" title="Dato sensible"></i></div><div class="fv">1790010309001</div></div>
         <div class="f"><div class="fl"><i class="fa-solid fa-building"></i> Razón social <i class="fa-solid fa-lock lock" title="Dato sensible"></i></div><div class="fv">TEOJAMA COMERCIAL S.A.</div></div>
         <div class="f"><div class="fl"><i class="fa-solid fa-tag"></i> Nombre comercial</div><div class="fv">Teojama <button class="field-edit" aria-label="Editar"><i class="fa-solid fa-pen"></i></button></div></div>
-        <div class="f new"><div class="fl"><i class="fa-solid fa-globe" style="color:var(--indigo);"></i> País <span class="newtag">Nuevo</span></div><div class="fv">Ecuador <i class="fa-solid fa-chevron-down chev"></i></div></div>
+        <div class="f new" data-tour="pais"><div class="fl"><i class="fa-solid fa-globe" style="color:var(--indigo);"></i> País <span class="newtag">Nuevo</span></div><div class="fv">Ecuador <i class="fa-solid fa-chevron-down chev"></i></div></div>
         <div class="f"><div class="fl"><i class="fa-solid fa-map"></i> Provincia</div><div class="fv">Pichincha <i class="fa-solid fa-chevron-down chev"></i></div></div>
         <div class="f"><div class="fl"><i class="fa-solid fa-location-dot"></i> Ciudad</div><div class="fv">Quito <i class="fa-solid fa-chevron-down chev"></i></div></div>
         <div class="f col-2"><div class="fl"><i class="fa-solid fa-location-dot"></i> Dirección fiscal</div><div class="fv">Av. Amazonas N34-120 y Av. Naciones Unidas <button class="field-edit" aria-label="Editar"><i class="fa-solid fa-pen"></i></button></div></div>
@@ -1297,7 +1323,7 @@ body{ display:block; }
     </div>
 
     <!-- Agente de retención (nuevo) -->
-    <div class="neu-card b-2">
+    <div class="neu-card b-2" data-tour="retencion">
       <div class="card-h"><div class="ci"><i class="fa-solid fa-percent"></i></div><h2>Agente de retención</h2>
         <span class="newtag" style="margin-left:6px;">Nuevo · DIS-HU2</span><span class="sp"></span></div>
       <div class="tgl">
@@ -1328,7 +1354,7 @@ body{ display:block; }
     </div>
 
     <!-- Entrega de proforma y OC -->
-    <div class="neu-card">
+    <div class="neu-card" data-tour="proforma">
       <div class="card-h"><div class="ci"><i class="fa-solid fa-file-lines"></i></div><h2>Entrega de proforma y OC</h2></div>
       <div class="tgl" style="margin-bottom:12px;">
         <span class="sw"></span>
@@ -1341,7 +1367,7 @@ body{ display:block; }
     </div>
 
     <!-- Contactos vinculados -->
-    <div class="neu-card">
+    <div class="neu-card" data-tour="contactos">
       <div class="card-h"><div class="ci"><i class="fa-solid fa-users"></i></div><h2>Contactos vinculados</h2><span class="sp"></span>
         <button class="btn btn-neu btn-sm">Gestionar <i class="fa-solid fa-arrow-right"></i></button></div>
       <div class="fgrid" style="grid-template-columns:1fr;gap:10px;">
@@ -1355,7 +1381,7 @@ body{ display:block; }
     </div>
 
     <!-- Checklist de completitud (glass) -->
-    <div class="glass b-2">
+    <div class="glass b-2" data-tour="checklist">
       <div class="card-h" style="margin-bottom:14px;"><div class="ci" style="background:transparent;box-shadow:none;color:var(--indigo);"><i class="fa-solid fa-list-check"></i></div><h2>Checklist de completitud</h2></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 28px;">
         <div class="chk"><span class="ci ok"><i class="fa-solid fa-check"></i></span> RUC y razón social verificados</div>
@@ -1371,6 +1397,104 @@ body{ display:block; }
 
   <div class="foot-note">Prototipo de diseño · DIS-HU2 (ACTAF-5236) · lenguaje visual basado en el sistema neu/glass/bento de ActuaFast · Actuaria+ · Julio 2026</div>
 </div>
+
+<!-- ===== ONBOARDING · spotlight tour ===== -->
+<div id="tour-mask"></div>
+<div id="tour-spot"></div>
+<div id="tour-pop"></div>
+<button id="tour-launch" title="Ver recorrido guiado"><i class="fa-solid fa-wand-magic-sparkles"></i> Tour guiado</button>
+
+<script>
+(function(){
+  function el(id){ return document.getElementById(id); }
+  var steps = [
+    { welcome:true, step:"Onboarding", title:"Información fiscal — ¿qué hay de nuevo?",
+      text:"Actualizamos esta pantalla con el campo <b>País</b>, el bloque de <b>agente de retención</b> y los <b>avisos de validación</b>. Te muestro cada uno en 6 pasos." },
+    { sel:'[data-tour=avisos]', step:"Paso 1 de 6", title:"Avisos de validación",
+      text:"Antes de facturar te avisamos si algo bloquearía el cobro: <b>entidad suspendida</b>, <b>RUC no vigente</b> o <b>falta tu cuenta bancaria</b>. Cada aviso dice qué pasó y qué hacer, sin bloquear de más." },
+    { sel:'[data-tour=pais]', step:"Paso 2 de 6", title:"Campo País (nuevo)",
+      text:"Ahora defines el <b>país</b> de la entidad (por defecto Ecuador), junto a Provincia y Ciudad en la identificación fiscal." },
+    { sel:'[data-tour=retencion]', step:"Paso 3 de 6", title:"Agente de retención (nuevo)",
+      text:"Marca si la entidad es <b>agente de retención</b> y consulta los porcentajes de referencia de <b>IR</b> e <b>IVA</b>. A+ solo los muestra; el cálculo ocurre al facturar." },
+    { sel:'[data-tour=proforma]', step:"Paso 4 de 6", title:"Proforma y Orden de Compra",
+      text:"Activa la entrega automática de <b>proforma</b> y si tu empresa exige <b>OC</b> antes de aprobar pagos." },
+    { sel:'[data-tour=contactos]', step:"Paso 5 de 6", title:"Contactos vinculados",
+      text:"Los contactos de facturación, cobranzas y proveedor con su estado de vigencia. Se gestionan y sincronizan con Salesforce." },
+    { sel:'[data-tour=checklist]', step:"Paso 6 de 6", title:"Checklist de completitud",
+      text:"Una vista rápida de qué está listo y qué falta para operar sin fricción — incluye los tres estados de validación." }
+  ];
+  var i = 0, mask, spot, pop, launch;
+
+  function render(){
+    var s = steps[i];
+    mask.style.display = 'block';
+    var dots = steps.map(function(_,k){ return '<span class="tp-dot'+(k===i?' on':'')+'"></span>'; }).join('');
+    pop.innerHTML =
+      '<div class="tp-step">'+(s.step||'')+'</div>'+
+      '<div class="tp-title">'+s.title+'</div>'+
+      '<div class="tp-text">'+s.text+'</div>'+
+      '<div class="tp-foot"><div class="tp-dots">'+dots+'</div>'+
+        '<button class="btn btn-ghost btn-sm" id="tp-skip">Saltar</button>'+
+        (i>0 ? '<button class="btn btn-neu btn-sm" id="tp-prev">Anterior</button>' : '')+
+        '<button class="btn btn-primary btn-sm" id="tp-next">'+(i===steps.length-1?'Finalizar':'Siguiente')+'</button>'+
+      '</div>';
+    pop.style.display = 'block';
+    el('tp-skip').onclick = end;
+    if(el('tp-prev')) el('tp-prev').onclick = function(){ go(i-1); };
+    el('tp-next').onclick = function(){ i===steps.length-1 ? end() : go(i+1); };
+
+    if(s.welcome){
+      spot.style.display = 'none';
+      mask.style.background = 'rgba(15,31,61,0.74)';
+      pop.classList.add('center');
+      pop.style.top=''; pop.style.left='';
+      return;
+    }
+    pop.classList.remove('center');
+    mask.style.background = 'transparent';
+    var t = document.querySelector(s.sel);
+    if(!t){ go(i+1); return; }
+    t.scrollIntoView({ block:'center', behavior:'smooth' });
+    setTimeout(function(){ place(t); }, 380);
+  }
+
+  function place(t){
+    var r = t.getBoundingClientRect(), pad = 10;
+    spot.style.display = 'block';
+    spot.style.top = (r.top-pad)+'px';
+    spot.style.left = (r.left-pad)+'px';
+    spot.style.width = (r.width+pad*2)+'px';
+    spot.style.height = (r.height+pad*2)+'px';
+    var pw = pop.offsetWidth, ph = pop.offsetHeight, m = 16;
+    var top = r.bottom + pad + 14;
+    if(top + ph > window.innerHeight - m) top = Math.max(m, r.top - pad - 14 - ph);
+    var left = r.left;
+    if(left + pw > window.innerWidth - m) left = window.innerWidth - m - pw;
+    if(left < m) left = m;
+    pop.style.top = top+'px';
+    pop.style.left = left+'px';
+  }
+
+  function go(n){ i = Math.max(0, Math.min(steps.length-1, n)); render(); }
+  function end(){ mask.style.display='none'; spot.style.display='none'; pop.style.display='none'; document.removeEventListener('keydown', key); }
+  function start(){ i = 0; document.addEventListener('keydown', key); render(); }
+  function key(e){
+    if(e.key==='Escape') end();
+    else if(e.key==='ArrowRight'){ var n=el('tp-next'); if(n) n.click(); }
+    else if(e.key==='ArrowLeft' && i>0) go(i-1);
+  }
+
+  window.addEventListener('DOMContentLoaded', function(){
+    mask=el('tour-mask'); spot=el('tour-spot'); pop=el('tour-pop'); launch=el('tour-launch');
+    launch.onclick = start;
+    window.addEventListener('resize', function(){
+      var s=steps[i];
+      if(pop.style.display==='block' && s && !s.welcome){ var t=document.querySelector(s.sel); if(t) place(t); }
+    });
+    setTimeout(start, 600);
+  });
+})();
+</script>
 
 </body>
 
