@@ -40,7 +40,7 @@
   ──────────────────────────────────────────────────────────────── */
   --navy: #0f1f3d;            /* 12.50:1 ✅ AAA */
   --indigo:      #3C76F1;     /* Primary 500 — info / interactivo */
-  --indigo-text: #366AD9;     /* Primary 600 — variante para texto */
+  --indigo-text: #2F5FCC;     /* Primary TEXT — AA 5.12:1 sobre #ECF1FE (era #366AD9 = 4.40:1) */
   --indigo-soft: #ECF1FE;     /* Primary 100 */
   --orange: #DE5E2D;          /* brand only */
   --orange-soft: #fff4e5;
@@ -48,19 +48,23 @@
   --text-sub: #475569;        /* 5.68:1  ✅ AA */
   --text-dim: #4b5563;        /* 5.72:1  ✅ AA */
   /* ── DESIGN SYSTEM — colores semánticos del sistema oficial ────
-     Success  · #00C781 (500) · soft #66DDB3 (100) · text #00B374 (600)
-     Warning  · #FFBB38 (500) · soft #FFD688 (100) · text #E6A832 (300)
-     Danger   · #FF4040 (500) · soft #FF8C8C (100) · text #CC3333 (700)
-     Info/Pri · #3C76F1 (500) · soft #ECF1FE (100) · text #366AD9 (600)
+     500  = FONDO/RELLENO sólido (toggles, barras, iconos con texto blanco).
+     soft = tinte para fondos de chip/aviso.
+     *-text = SOLO texto: tono oscuro accesible (AA+) sobre fondo claro/tinte.
+     Regla: nunca usar el 500 como color de texto (contraste < 2.3:1).
+     Success  · fill #00C781 · soft #66DDB3 · text #1B5E20 (AA  5.83:1)
+     Warning  · fill #FFBB38 · soft #FFD688 · text #663C00 (AAA 7.03:1)
+     Danger   · fill #FF4040 · soft #FF8C8C · text #5F2120 (AAA 9.14:1)
+     Info/Pri · fill #3C76F1 · soft #ECF1FE · text #2F5FCC (AA  5.12:1)
   ──────────────────────────────────────────────────────────────── */
-  --green:      #00C781;      /* Success 500 */
-  --green-text: #00B374;      /* Success 600 — variante para texto */
+  --green:      #00C781;      /* Success 500 — solo relleno */
+  --green-text: #1B5E20;      /* Success TEXT — AA  5.83:1 sobre #edf7ed */
   --green-soft: #66DDB3;      /* Success 100 */
-  --yellow:     #FFBB38;      /* Warning 500 */
-  --yellow-text:#E6A832;      /* Warning 300 — variante para texto */
+  --yellow:     #FFBB38;      /* Warning 500 — solo relleno */
+  --yellow-text:#663C00;      /* Warning TEXT — AAA 7.03:1 sobre #fff4e5 */
   --yellow-soft:#FFD688;      /* Warning 100 */
-  --red:        #FF4040;      /* Danger  500 */
-  --red-text:   #CC3333;      /* Danger  700 — variante para texto */
+  --red:        #FF4040;      /* Danger  500 — solo relleno */
+  --red-text:   #5F2120;      /* Danger  TEXT — AAA 9.14:1 sobre #fdeded */
   --red-soft:   #FF8C8C;      /* Danger  100 */
   --border: rgba(163,177,198,0.35);
 
@@ -350,9 +354,9 @@ body {
 }
 .tag-niif   { background: var(--indigo-soft); color: var(--indigo); }
 .tag-tipo   { background: rgba(163,177,198,0.2); color: var(--text-sub); }
-.tag-green  { background: var(--green-soft); color: var(--green); }
-.tag-yellow { background: var(--yellow-soft); color: var(--yellow); }
-.tag-red    { background: var(--red-soft); color: var(--red); }
+.tag-green  { background: #edf7ed; color: var(--green-text); }
+.tag-yellow { background: #fff4e5; color: var(--yellow-text); }
+.tag-red    { background: #fdeded; color: var(--red-text); }
 /* Tag clicable: añade affordance solo cuando corresponde */
 .tag.tag-link { cursor: pointer; transition: filter 0.15s; }
 .tag.tag-link:hover { filter: brightness(0.92); }
