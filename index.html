@@ -1234,10 +1234,11 @@ body{ display:block; }
 #tour-pop .tp-title{ font-size:19px; font-weight:800; color:var(--navy); margin:4px 0 8px; line-height:1.15; }
 #tour-pop .tp-text{ font-size:13.5px; line-height:1.5; color:var(--text-sub); font-weight:500; }
 #tour-pop .tp-text b{ color:var(--text); }
-#tour-pop .tp-foot{ display:flex; align-items:center; gap:8px; margin-top:18px; }
+#tour-pop .tp-foot{ display:flex; flex-wrap:wrap; align-items:center; gap:12px 10px; margin-top:18px; }
 #tour-pop.center .tp-foot{ justify-content:center; }
-#tour-pop .tp-dots{ display:flex; align-items:center; gap:6px; flex:1; }
-#tour-pop.center .tp-dots{ flex:none; }
+#tour-pop .tp-dots{ display:flex; align-items:center; gap:6px; }
+#tour-pop .tp-btns{ display:flex; align-items:center; gap:8px; margin-left:auto; }
+#tour-pop.center .tp-btns{ margin-left:0; }
 #tour-pop .tp-dot{ width:7px; height:7px; border-radius:50%; background:#c7cfde; transition:.3s; }
 #tour-pop .tp-dot.on{ background:var(--indigo); width:18px; border-radius:99px; }
 #tour-launch{ position:fixed; right:22px; bottom:22px; z-index:9990; cursor:pointer; border:none;
@@ -1434,9 +1435,11 @@ body{ display:block; }
       '<div class="tp-title">'+s.title+'</div>'+
       '<div class="tp-text">'+s.text+'</div>'+
       '<div class="tp-foot"><div class="tp-dots">'+dots+'</div>'+
-        '<button class="btn btn-ghost btn-sm" id="tp-skip">Saltar</button>'+
-        (i>0 ? '<button class="btn btn-neu btn-sm" id="tp-prev">Anterior</button>' : '')+
-        '<button class="btn btn-primary btn-sm" id="tp-next">'+(i===steps.length-1?'Finalizar':'Siguiente')+'</button>'+
+        '<div class="tp-btns">'+
+          '<button class="btn btn-ghost btn-sm" id="tp-skip">Saltar</button>'+
+          (i>0 ? '<button class="btn btn-neu btn-sm" id="tp-prev">Anterior</button>' : '')+
+          '<button class="btn btn-primary btn-sm" id="tp-next">'+(i===steps.length-1?'Finalizar':'Siguiente')+'</button>'+
+        '</div>'+
       '</div>';
     pop.style.display = 'block';
     el('tp-skip').onclick = end;
