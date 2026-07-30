@@ -1273,10 +1273,13 @@ body{ display:block; }
       <div class="sub"><b>TEOJAMA COMERCIAL S.A.</b> · RUC 1790010309001</div>
     </div>
     <span class="sp"></span>
+    <!-- OCULTO TEMPORALMENTE (badge de avisos) 2026-07-30 - restaurar quitando este comentario
     <span class="status-badge s-yellow"><i class="fa-solid fa-triangle-exclamation"></i> 3 avisos por revisar</span>
+    -->
   </div>
 
   <!-- ===== 3 AVISOS DE VALIDACIÓN (ME-HU3) — patrón de alerta del sistema ===== -->
+  <!-- OCULTO TEMPORALMENTE (3 avisos) 2026-07-30 - restaurar quitando este comentario de apertura y el "FIN OCULTO" del cierre
   <div class="avisos" data-tour="avisos">
     <div class="aviso aviso--danger">
       <div class="ai"><i class="fa-solid fa-ban"></i></div>
@@ -1305,6 +1308,7 @@ body{ display:block; }
       <button class="btn btn-primary btn-sm aact">Agregar cuenta</button>
     </div>
   </div>
+  FIN OCULTO TEMPORALMENTE (3 avisos) -->
 
   <!-- ===== BENTO ===== -->
   <div class="bento">
@@ -1414,18 +1418,20 @@ body{ display:block; }
   function el(id){ return document.getElementById(id); }
   var steps = [
     { welcome:true, step:"Onboarding", title:"Información fiscal — ¿qué hay de nuevo?",
-      text:"Actualizamos esta pantalla con el campo <b>País</b>, el bloque de <b>agente de retención</b> y los <b>avisos de validación</b>. Te muestro cada uno en 6 pasos." },
+      text:"Actualizamos esta pantalla con el campo <b>País</b> y el bloque de <b>agente de retención</b>. Te muestro cada uno en 5 pasos." },
+    /* OCULTO TEMPORALMENTE (paso avisos) 2026-07-30 - restaurar: descomentar este objeto, volver welcome a "6 pasos" y renumerar los pasos a /6
     { sel:'[data-tour=avisos]', step:"Paso 1 de 6", title:"Avisos de validación",
       text:"Antes de facturar te avisamos si algo bloquearía el cobro: <b>entidad suspendida</b>, <b>RUC no vigente</b> o <b>falta tu cuenta bancaria</b>. Cada aviso dice qué pasó y qué hacer, sin bloquear de más." },
-    { sel:'[data-tour=pais]', step:"Paso 2 de 6", title:"Campo País (nuevo)",
+    */
+    { sel:'[data-tour=pais]', step:"Paso 1 de 5", title:"Campo País (nuevo)",
       text:"Ahora defines el <b>país</b> de la entidad (por defecto Ecuador), junto a Provincia y Ciudad en la identificación fiscal." },
-    { sel:'[data-tour=retencion]', step:"Paso 3 de 6", title:"Agente de retención (nuevo)",
+    { sel:'[data-tour=retencion]', step:"Paso 2 de 5", title:"Agente de retención (nuevo)",
       text:"Marca si la entidad es <b>agente de retención</b> y consulta los porcentajes de referencia de <b>IR</b> e <b>IVA</b>. A+ solo los muestra; el cálculo ocurre al facturar." },
-    { sel:'[data-tour=proforma]', step:"Paso 4 de 6", title:"Proforma y Orden de Compra",
+    { sel:'[data-tour=proforma]', step:"Paso 3 de 5", title:"Proforma y Orden de Compra",
       text:"Activa la entrega automática de <b>proforma</b> y si tu empresa exige <b>OC</b> antes de aprobar pagos." },
-    { sel:'[data-tour=contactos]', step:"Paso 5 de 6", title:"Contactos vinculados",
+    { sel:'[data-tour=contactos]', step:"Paso 4 de 5", title:"Contactos vinculados",
       text:"Los contactos de facturación, cobranzas y proveedor con su estado de vigencia. Se gestionan y sincronizan con Salesforce." },
-    { sel:'[data-tour=checklist]', step:"Paso 6 de 6", title:"Checklist de completitud",
+    { sel:'[data-tour=checklist]', step:"Paso 5 de 5", title:"Checklist de completitud",
       text:"Una vista rápida de qué está listo y qué falta para operar sin fricción — incluye los tres estados de validación." }
   ];
   var i = 0, mask, spot, pop, launch;
