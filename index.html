@@ -1251,6 +1251,58 @@ body{ display:block; }
 #tour-launch i{ color:var(--orange); }
 #tour-launch:hover{ transform:translateY(-1px); }
 
+/* ===== Vista independiente · Administración de Contactos (ACTAF-5236 / §6.4) ===== */
+#dsContactosView{ position:fixed; inset:0; z-index:9995; background:var(--bg); overflow-y:auto; display:none; }
+#dsContactosView.open{ display:block; }
+.cv-bar{ background:var(--navy); height:64px; display:flex; align-items:center; gap:14px; padding:0 22px; box-shadow:0 10px 34px rgba(15,31,61,.38), inset 0 1px 0 rgba(255,255,255,.07); position:sticky; top:0; z-index:2;}
+.cv-back{ display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,.12); color:#fff; border:none; font-weight:700; font-size:13px; padding:9px 15px; border-radius:99px; cursor:pointer;}
+.cv-back:hover{ background:rgba(255,255,255,.20);}
+.cv-bar .cvt{ font-weight:900; font-size:19px; color:#fff; letter-spacing:-.3px;}
+.cv-bar .cvt b{ color:var(--orange);}
+.cv-bar .mod{ font-size:13px; font-weight:700; color:rgba(255,255,255,.55); border-left:1px solid rgba(255,255,255,.18); padding-left:14px;}
+.cv-wrap{ max-width:960px; margin:0 auto; padding:24px 28px 90px;}
+.cv-crumbs{ font-size:12.5px; font-weight:700; color:var(--text-sub); display:flex; gap:8px; align-items:center; margin:6px 2px 18px;}
+.cv-crumbs i{ font-size:9px; color:var(--text-dim);} .cv-crumbs .cur{ color:var(--navy);}
+.cv-head{ display:flex; align-items:flex-start; gap:16px;}
+.cv-head .ic{ width:52px;height:52px;border-radius:15px; background:var(--bg); box-shadow:var(--neu-out); display:grid;place-items:center; color:var(--indigo); font-size:20px; flex:none;}
+.cv-head h1{ font-size:23px; font-weight:800; color:var(--navy); line-height:1.1;}
+.cv-head .sub{ font-size:12.5px; font-weight:600; color:var(--text-sub); margin-top:3px;}
+.cv-head .sp{ flex:1;}
+.cv-sync{ font-size:12px; color:var(--text-sub); font-weight:600; display:flex; gap:8px; align-items:center; background:var(--indigo-soft); border:1px solid rgba(60,118,241,.20); padding:9px 13px; border-radius:12px; margin:16px 0 20px;}
+.cv-sync i{ color:var(--indigo);}
+.crow{ display:flex; align-items:center; gap:14px; background:var(--bg); box-shadow:var(--neu-out-sm); border-radius:15px; padding:13px 16px; margin-bottom:12px;}
+.crow .role{ width:112px; flex:none;}
+.crow .nm .n{ font-size:14.5px; font-weight:800; color:var(--text);}
+.crow .nm .m{ font-size:12px; color:var(--text-dim); font-weight:600; margin-top:2px;}
+.crow .sp{ flex:1;}
+.crow .acts{ display:flex; align-items:center; gap:8px; flex:none;}
+.acc{ display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:800; padding:5px 10px; border-radius:99px; white-space:nowrap;}
+.acc-editor{ background:var(--indigo-soft); color:var(--indigo-text);}
+.acc-view{ background:var(--bg); box-shadow:var(--neu-in-sm); color:var(--text-dim);}
+.acc-none{ background:#fff4e5; color:#663c00;}
+.cv-foot{ font-size:12px; color:var(--text-dim); font-weight:600; display:flex; gap:8px; align-items:flex-start; margin-top:18px;}
+.cv-foot i{ color:var(--indigo); margin-top:2px;}
+#cvEdit{ display:none; } #cvEdit.open{ display:block; }
+.cv-warn{ display:flex; gap:12px; align-items:flex-start; background:#fff4e5; border-radius:14px; padding:13px 15px; margin-bottom:18px;}
+.cv-warn .ai{ width:32px;height:32px;border-radius:9px;flex:none;display:grid;place-items:center;background:var(--yellow);color:#5f2120;font-size:14px;}
+.cv-warn .at{ font-weight:800; font-size:13.5px; color:#663c00;} .cv-warn .ad{ font-size:12px; color:#663c00; margin-top:2px; line-height:1.45;}
+.cv-replace{ background:var(--bg); box-shadow:var(--neu-in-sm); border-radius:13px; padding:12px 14px; margin-bottom:20px;}
+.cv-replace .lbl{ font-size:10.5px; font-weight:800; letter-spacing:.4px; text-transform:uppercase; color:var(--text-dim);}
+.cv-replace .who{ font-size:14px; font-weight:700; color:var(--text); margin-top:3px;}
+.cv-replace .why{ font-size:12px; color:var(--red-text); font-weight:600; margin-top:2px;}
+.cv-formgrid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:8px;}
+.cv-field{ background:var(--bg); border-radius:12px; box-shadow:var(--neu-in-sm); padding:10px 13px;}
+.cv-field .fl{ font-size:10.5px; font-weight:800; letter-spacing:.4px; text-transform:uppercase; color:var(--text-dim); margin-bottom:5px;}
+.cv-field input{ border:none; background:transparent; width:100%; font-size:14px; font-weight:600; color:var(--text); outline:none; font-family:inherit;}
+.cv-field input::placeholder{ color:var(--text-dim); font-weight:500;}
+.cv-q{ font-size:13px; font-weight:800; color:var(--navy); margin:18px 0 8px;}
+.seg{ display:inline-flex; gap:8px; flex-wrap:wrap;}
+.seg .opt{ font-size:12.5px; font-weight:800; color:var(--text-sub); background:var(--bg); box-shadow:var(--neu-out-sm); border-radius:11px; padding:8px 13px; cursor:pointer; user-select:none;}
+.seg .opt.sel{ color:#fff; background:var(--indigo); box-shadow:var(--neu-out-sm);}
+.cv-hint{ font-size:11.5px; color:var(--text-dim); font-weight:600; margin-top:8px;}
+.cv-actions{ display:flex; justify-content:flex-end; gap:10px; margin-top:24px;}
+@media(max-width:720px){ .cv-formgrid{ grid-template-columns:1fr;} .crow{ flex-wrap:wrap;} .crow .acts{ width:100%; justify-content:flex-end; margin-top:6px;} }
+
 </style>
 </head>
 <body>
@@ -1378,7 +1430,7 @@ body{ display:block; }
     <!-- Contactos vinculados -->
     <div class="neu-card" data-tour="contactos">
       <div class="card-h"><div class="ci"><i class="fa-solid fa-users"></i></div><h2>Contactos vinculados</h2><span class="sp"></span>
-        <button class="btn btn-neu btn-sm">Gestionar <i class="fa-solid fa-arrow-right"></i></button></div>
+        <button class="btn btn-neu btn-sm" id="btnGestionarContactos">Gestionar contactos <i class="fa-solid fa-arrow-right"></i></button></div>
       <div class="fgrid" style="grid-template-columns:1fr;gap:10px;">
         <div class="f" style="display:flex;align-items:center;gap:10px;box-shadow:var(--neu-out-sm);">
           <span class="tag tag-tipo">Facturación</span><b style="font-size:13.5px;">María García</b><span class="sp" style="flex:1;"></span><span class="tag tag-green">✓ vigente</span></div>
@@ -1506,6 +1558,111 @@ body{ display:block; }
     });
     setTimeout(start, 600);
   });
+})();
+</script>
+
+<!-- ===== VISTA INDEPENDIENTE · Administración de Contactos (ACTAF-5236 / Documento Maestro §6.4) ===== -->
+<div id="dsContactosView">
+  <div class="cv-bar">
+    <button class="cv-back" id="cvBack"><i class="fa-solid fa-arrow-left"></i> Volver</button>
+    <span class="cvt">actuaria<b>+</b></span>
+    <span class="mod">Mis entidades</span>
+  </div>
+  <div class="cv-wrap">
+    <div class="cv-crumbs">Mis entidades <i class="fa-solid fa-chevron-right"></i> TEOJAMA COMERCIAL <i class="fa-solid fa-chevron-right"></i> <span class="cur">Contactos relacionados</span></div>
+
+    <!-- LISTA · estado estable -->
+    <div id="cvList">
+      <div class="cv-head">
+        <div class="ic"><i class="fa-solid fa-users"></i></div>
+        <div>
+          <h1>Contactos relacionados</h1>
+          <div class="sub"><b>TEOJAMA COMERCIAL S.A.</b> · RUC 1790010309001</div>
+        </div>
+        <span class="sp"></span>
+        <button class="btn btn-primary btn-sm"><i class="fa-solid fa-plus"></i> Agregar contacto</button>
+      </div>
+      <div class="cv-sync"><i class="fa-solid fa-rotate"></i> Se sincronizan con Salesforce · pueden ser usuarios de A+. A+ es la fuente de verdad hacia adelante.</div>
+
+      <div class="crow">
+        <span class="role"><span class="tag tag-tipo">Facturación</span></span>
+        <div class="nm"><div class="n">María García</div><div class="m">facturacion@teojama.com · 0998 001 122</div></div>
+        <span class="sp"></span>
+        <div class="acts"><span class="acc acc-editor"><i class="fa-solid fa-circle-user"></i> Usuario A+ · Editor</span>
+          <button class="btn btn-neu btn-sm cv-edit">Editar</button></div>
+      </div>
+      <div class="crow">
+        <span class="role"><span class="tag tag-tipo">Cobranzas</span></span>
+        <div class="nm"><div class="n">Carlos Vega</div><div class="m">cobranzas@teojama.com · 0991 234 567</div></div>
+        <span class="sp"></span>
+        <div class="acts"><span class="acc acc-none">Sin acceso a A+</span>
+          <button class="btn btn-neu btn-sm">Invitar a A+</button>
+          <button class="btn btn-neu btn-sm cv-edit">Editar</button></div>
+      </div>
+      <div class="crow">
+        <span class="role"><span class="tag tag-tipo">Proveedor</span></span>
+        <div class="nm"><div class="n">Ana Ruiz</div><div class="m">ana.ruiz@proveedor.com · 0987 654 321</div></div>
+        <span class="sp"></span>
+        <div class="acts"><span class="acc acc-none">Sin acceso a A+</span>
+          <button class="btn btn-neu btn-sm">Invitar a A+</button>
+          <button class="btn btn-neu btn-sm cv-edit">Editar</button></div>
+      </div>
+      <div class="crow">
+        <span class="role"><span class="tag tag-tipo">Técnico/Legal</span></span>
+        <div class="nm"><div class="n">Luis Mora</div><div class="m">luis.mora@teojama.com · 0991 112 233</div></div>
+        <span class="sp"></span>
+        <div class="acts"><span class="acc acc-view"><i class="fa-solid fa-eye"></i> Usuario A+ · Solo vista</span>
+          <button class="btn btn-neu btn-sm cv-edit">Editar</button></div>
+      </div>
+
+      <div class="cv-foot"><i class="fa-solid fa-circle-info"></i><span>Cualquier cambio en contactos o datos fiscales se sincroniza automáticamente a Salesforce (dependencia técnica del PO). El acceso a A+ se gestiona desde la sección Equipo.</span></div>
+    </div>
+
+    <!-- EDITAR / REEMPLAZAR -->
+    <div id="cvEdit">
+      <div class="cv-crumbs" style="margin-top:0;"><span id="cvEditBack" style="cursor:pointer;color:var(--indigo-text);font-weight:800;">‹ Contactos</span> <i class="fa-solid fa-chevron-right"></i> <span class="cur">Reemplazar contacto</span></div>
+      <div class="cv-warn"><div class="ai"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <div><div class="at">El contacto anterior no se elimina</div><div class="ad">Quedará marcado como inactivo, conservando el historial de lo que se le notificó o facturó mientras estuvo vigente.</div></div></div>
+      <div class="cv-replace"><div class="lbl">Se reemplaza</div><div class="who" id="cvOldName">Carlos Vega · cobranzas@teojama.com</div><div class="why">Motivo: ya no trabaja en la empresa (marcado por el cliente)</div></div>
+      <div class="cv-q" style="margin-top:0;">Nuevo contacto</div>
+      <div class="cv-formgrid">
+        <div class="cv-field"><div class="fl">Nombre completo</div><input type="text" placeholder="Nombre y apellido"></div>
+        <div class="cv-field"><div class="fl">Correo electrónico</div><input type="email" placeholder="correo@empresa.com"></div>
+        <div class="cv-field"><div class="fl">Teléfono</div><input type="tel" placeholder="09xx xxx xxx"></div>
+        <div class="cv-field"><div class="fl">Cargo (opcional)</div><input type="text" placeholder="Ej. Jefe de cobranzas"></div>
+      </div>
+      <div class="cv-q">¿Este contacto también necesita acceso a A+?</div>
+      <div class="seg"><span class="opt sel">Sí, invitar a A+</span><span class="opt">No, solo contacto</span></div>
+      <div class="cv-hint">Si eliges "Sí", asignas su rol por módulo en el siguiente paso (mismo mecanismo de Equipo).</div>
+      <div class="cv-q">Tipo de contacto</div>
+      <div class="seg"><span class="opt">Facturación</span><span class="opt sel">Cobranzas</span><span class="opt">Proveedor</span><span class="opt">General</span><span class="opt">Técnico/Legal</span></div>
+      <div class="cv-actions"><button class="btn btn-neu" id="cvCancel">Cancelar</button><button class="btn btn-primary">Guardar reemplazo</button></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  var view=document.getElementById('dsContactosView');
+  var list=document.getElementById('cvList');
+  var edit=document.getElementById('cvEdit');
+  if(!view) return;
+  function openView(){ view.classList.add('open'); showList(); document.body.style.overflow='hidden'; }
+  function closeView(){ view.classList.remove('open'); document.body.style.overflow=''; }
+  function showList(){ edit.classList.remove('open'); list.style.display='block'; view.scrollTop=0; }
+  function showEdit(row){
+    if(row){ var n=row.querySelector('.n'), m=row.querySelector('.m');
+      if(n&&m){ var mail=(m.textContent.split('·')[0]||'').trim(); document.getElementById('cvOldName').textContent=n.textContent+(mail?' · '+mail:''); } }
+    list.style.display='none'; edit.classList.add('open'); view.scrollTop=0;
+  }
+  var g=document.getElementById('btnGestionarContactos'); if(g) g.onclick=openView;
+  var b=document.getElementById('cvBack'); if(b) b.onclick=closeView;
+  var eb=document.getElementById('cvEditBack'); if(eb) eb.onclick=showList;
+  var cc=document.getElementById('cvCancel'); if(cc) cc.onclick=showList;
+  Array.prototype.forEach.call(document.querySelectorAll('.cv-edit'), function(btn){ btn.onclick=function(){ showEdit(btn.closest('.crow')); }; });
+  Array.prototype.forEach.call(document.querySelectorAll('#cvEdit .seg'), function(seg){ seg.addEventListener('click', function(e){ var o=e.target.closest('.opt'); if(!o||!seg.contains(o)) return; Array.prototype.forEach.call(seg.querySelectorAll('.opt'),function(x){x.classList.remove('sel');}); o.classList.add('sel'); }); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape' && view.classList.contains('open')){ if(edit.classList.contains('open')) showList(); else closeView(); } });
 })();
 </script>
 
