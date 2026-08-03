@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VE-00152954 — Procesos · ActuaFast</title>
+<title>Información fiscal — Mis entidades · Actuaria+</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
@@ -1635,7 +1635,7 @@ body{ display:block; }
       <div class="seg"><span class="opt sel">Sí, invitar a A+</span><span class="opt">No, solo contacto</span></div>
       <div class="cv-hint">Si eliges "Sí", asignas su rol por módulo en el siguiente paso (mismo mecanismo de Equipo).</div>
       <div class="cv-q">Tipo de contacto</div>
-      <div class="seg"><span class="opt">Facturación</span><span class="opt sel">Cobranzas</span><span class="opt">Proveedor</span><span class="opt">General</span><span class="opt">Técnico/Legal</span></div>
+      <div class="seg" id="cvTipoSeg"><span class="opt">Facturación</span><span class="opt sel">Cobranzas</span><span class="opt">Proveedor</span><span class="opt">General</span><span class="opt">Técnico/Legal</span></div>
       <div class="cv-actions"><button class="btn btn-neu" id="cvCancel">Cancelar</button><button class="btn btn-primary">Guardar reemplazo</button></div>
     </div>
 
@@ -1653,7 +1653,11 @@ body{ display:block; }
   function showList(){ edit.classList.remove('open'); list.style.display='block'; view.scrollTop=0; }
   function showEdit(row){
     if(row){ var n=row.querySelector('.n'), m=row.querySelector('.m');
-      if(n&&m){ var mail=(m.textContent.split('·')[0]||'').trim(); document.getElementById('cvOldName').textContent=n.textContent+(mail?' · '+mail:''); } }
+      if(n&&m){ var mail=(m.textContent.split('·')[0]||'').trim(); document.getElementById('cvOldName').textContent=n.textContent+(mail?' · '+mail:''); }
+      /* el tipo del nuevo contacto hereda el del contacto que se reemplaza */
+      var tipo=row.querySelector('.tag-tipo'), seg=document.getElementById('cvTipoSeg');
+      if(tipo&&seg){ var t=tipo.textContent.trim();
+        Array.prototype.forEach.call(seg.querySelectorAll('.opt'), function(o){ o.classList.toggle('sel', o.textContent.trim()===t); }); } }
     list.style.display='none'; edit.classList.add('open'); view.scrollTop=0;
   }
   var g=document.getElementById('btnGestionarContactos'); if(g) g.onclick=openView;
