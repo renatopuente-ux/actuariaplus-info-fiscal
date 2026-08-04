@@ -203,6 +203,12 @@ a{ color:inherit; }
 }
 .btn-primary{ background:var(--navy); color:#fff; }
 .btn-primary:hover{ background:#1B2757; }
+.btn-primary:disabled{
+  background:#D9DEEA; color:#8E97AE; cursor:not-allowed; box-shadow:none;
+}
+.btn-primary:disabled:hover{ background:#D9DEEA; }
+.guardar-hint{ font-size:13px; color:var(--muted); display:inline-flex; align-items:center; gap:6px; }
+.guardar-hint i{ color:#E9A23B; }
 .btn-out{ background:#fff; border-color:#D5DAE5; color:var(--navy); }
 .btn-out:hover{ background:#F7F9FC; }
 .btn-danger{ background:#fff; border-color:#EFC3BA; color:var(--danger); }
@@ -665,7 +671,8 @@ a{ color:inherit; }
 
     <div class="actionrow" style="margin:34px 0 0;">
       <button class="btn btn-out">Resetear</button>
-      <button class="btn btn-primary">Guardar</button>
+      <button class="btn btn-primary" id="btnGuardar" disabled>Guardar</button>
+      <span class="guardar-hint" id="guardarHint"><i class="fa-solid fa-triangle-exclamation"></i> Completa el checklist para guardar</span>
     </div>
 
     <div class="footnote">
@@ -944,6 +951,53 @@ a{ color:inherit; }
       if(edit.classList.contains('open')) showList(); else closeView();
     }
   });
+})();
+</script>
+
+<script>
+/* Guardar deshabilitado hasta que los 6 items del checklist esten en verde.
+   DEMO: clic en un item del checklist alterna su estado (rojo/ambar <-> verde)
+   para poder demostrar la habilitacion; en produccion el estado viene del backend. */
+(function(){
+  var btn = document.getElementById('btnGuardar');
+  var hint = document.getElementById('guardarHint');
+  if(!btn) return;
+  var chks = Array.prototype.slice.call(document.querySelectorAll('.chks .chk'));
+
+  function update(){
+    var total = chks.length;
+    var oks = chks.filter(function(c){ return c.querySelector('.st').classList.contains('ok'); }).length;
+    var ready = oks === total;
+    btn.disabled = !ready;
+    btn.title = ready ? '' : 'Se habilita cuando los ' + total + ' puntos del checklist esten en verde (' + oks + '/' + total + ')';
+    if(hint) hint.style.display = ready ? 'none' : 'inline-flex';
+  }
+
+  chks.forEach(function(chk){
+    var st = chk.querySelector('.st');
+    var icon = st.querySelector('i');
+    /* recordar estado original para poder alternar */
+    var orig = st.classList.contains('ok') ? 'ok' : (st.classList.contains('err') ? 'err' : 'warn');
+    var origIcon = icon.className;
+    var chip = chk.querySelector('.chip');
+    chk.style.cursor = 'pointer';
+    chk.title = 'Demo: clic para alternar el estado';
+    chk.addEventListener('click', function(){
+      var isOk = st.classList.contains('ok');
+      st.classList.remove('ok','err','warn');
+      if(isOk && orig !== 'ok'){
+        st.classList.add(orig);
+        icon.className = origIcon;
+        if(chip) chip.style.display = '';
+      } else {
+        st.classList.add('ok');
+        icon.className = 'fa-solid fa-check';
+        if(chip) chip.style.display = 'none';
+      }
+      update();
+    });
+  });
+  update();
 })();
 </script>
 
