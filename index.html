@@ -360,6 +360,16 @@ a{ color:inherit; }
 .cv-q{ font-size:15px; font-weight:800; color:var(--navy); margin:22px 0 10px; }
 .seg{ display:flex; gap:9px; flex-wrap:wrap; }
 .seg .opt{ font-size:14px; }
+/* checkboxes de tipo de contacto (multi-rol) */
+.ckgroup{ display:flex; flex-wrap:wrap; gap:12px 26px; }
+.ckitem{ display:inline-flex; align-items:center; gap:9px; cursor:pointer; font-size:14.5px; font-weight:700; color:var(--ink); user-select:none; }
+.ckbox{
+  width:20px; height:20px; border-radius:5px; border:1.5px solid #B9C1D4; background:#fff;
+  display:grid; place-items:center; color:#fff; font-size:11px; flex:none; transition:background .15s, border-color .15s;
+}
+.ckbox i{ display:none; }
+.ckitem.on .ckbox{ background:var(--indigo); border-color:var(--indigo); }
+.ckitem.on .ckbox i{ display:block; }
 .cv-replace{ background:#F2F5FA; border:1px solid var(--line); border-radius:var(--r); padding:15px 18px; margin-bottom:6px; }
 .cv-replace .lbl{ font-size:11px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#6B7280; }
 .cv-replace .who{ font-size:16px; font-weight:800; color:var(--ink); margin-top:4px; }
@@ -894,10 +904,14 @@ a{ color:inherit; }
       <div class="note"><i class="fa-solid fa-circle-info"></i><span>Si eliges "Sí", asignas su rol por módulo en el siguiente paso (mismo mecanismo de Equipo).</span></div>
 
       <div class="cv-q">Tipo de contacto</div>
-      <div class="seg" id="cvTipoSeg">
-        <button class="opt">Facturación</button><button class="opt on">Cobranzas</button>
-        <button class="opt">Proveedor</button><button class="opt">General</button><button class="opt">Técnico/Legal</button>
+      <div class="ckgroup" id="cvTipoGrp">
+        <span class="ckitem" role="checkbox" aria-checked="false" tabindex="0"><span class="ckbox"><i class="fa-solid fa-check"></i></span>Facturación</span>
+        <span class="ckitem on" role="checkbox" aria-checked="true" tabindex="0"><span class="ckbox"><i class="fa-solid fa-check"></i></span>Cobranzas</span>
+        <span class="ckitem" role="checkbox" aria-checked="false" tabindex="0"><span class="ckbox"><i class="fa-solid fa-check"></i></span>Proveedor</span>
+        <span class="ckitem" role="checkbox" aria-checked="false" tabindex="0"><span class="ckbox"><i class="fa-solid fa-check"></i></span>General</span>
+        <span class="ckitem" role="checkbox" aria-checked="false" tabindex="0"><span class="ckbox"><i class="fa-solid fa-check"></i></span>Técnico/Legal</span>
       </div>
+      <div class="note" style="margin-top:10px;"><i class="fa-solid fa-circle-info"></i><span>Un mismo contacto puede tener <b>varios roles a la vez</b> — marca todos los que apliquen.</span></div>
 
       <div class="cv-actions">
         <button class="btn btn-out" id="cvCancel">Cancelar</button>
@@ -923,10 +937,16 @@ a{ color:inherit; }
       var n=row.querySelector('.n'), m=row.querySelector('.m');
       if(n&&m){ var mail=(m.textContent.split('·')[0]||'').trim();
         document.getElementById('cvOldName').textContent=n.textContent+(mail?' · '+mail:''); }
-      /* el tipo del nuevo contacto hereda el del contacto que se reemplaza */
-      var tipo=row.querySelector('.chip-role'), seg=document.getElementById('cvTipoSeg');
-      if(tipo&&seg){ var t=tipo.textContent.trim();
-        Array.prototype.forEach.call(seg.querySelectorAll('.opt'), function(o){ o.classList.toggle('on', o.textContent.trim()===t); }); }
+      /* los tipos del nuevo contacto heredan los del contacto que se reemplaza (multi-rol) */
+      var grp=document.getElementById('cvTipoGrp');
+      if(grp){
+        var roles=Array.prototype.map.call(row.querySelectorAll('.chip-role'), function(c){ return c.textContent.trim(); });
+        Array.prototype.forEach.call(grp.querySelectorAll('.ckitem'), function(it){
+          var on = roles.indexOf(it.textContent.trim()) !== -1;
+          it.classList.toggle('on', on);
+          it.setAttribute('aria-checked', on ? 'true' : 'false');
+        });
+      }
     }
     list.style.display='none'; edit.classList.add('open'); view.scrollTop=0;
   }
@@ -938,7 +958,7 @@ a{ color:inherit; }
   Array.prototype.forEach.call(document.querySelectorAll('.cv-edit'), function(btn){
     btn.onclick=function(){ showEdit(btn.closest('.crow')); };
   });
-  /* segmentos de una sola selección */
+  /* segmentos de una sola selección (acceso a A+: Sí/No) */
   Array.prototype.forEach.call(document.querySelectorAll('#cvEdit .seg'), function(seg){
     seg.addEventListener('click', function(e){
       var o=e.target.closest('.opt'); if(!o||!seg.contains(o)) return;
@@ -946,6 +966,22 @@ a{ color:inherit; }
       o.classList.add('on');
     });
   });
+  /* tipo de contacto: checkboxes multi-rol (clic o Espacio/Enter) */
+  var tipoGrp=document.getElementById('cvTipoGrp');
+  if(tipoGrp){
+    function toggleCk(it){
+      var on=!it.classList.contains('on');
+      it.classList.toggle('on', on);
+      it.setAttribute('aria-checked', on ? 'true' : 'false');
+    }
+    tipoGrp.addEventListener('click', function(e){
+      var it=e.target.closest('.ckitem'); if(it) toggleCk(it);
+    });
+    tipoGrp.addEventListener('keydown', function(e){
+      var it=e.target.closest('.ckitem');
+      if(it && (e.key===' '||e.key==='Enter')){ e.preventDefault(); toggleCk(it); }
+    });
+  }
   document.addEventListener('keydown', function(e){
     if(e.key==='Escape' && view.classList.contains('open')){
       if(edit.classList.contains('open')) showList(); else closeView();
