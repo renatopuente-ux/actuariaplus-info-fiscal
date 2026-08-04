@@ -313,30 +313,12 @@ a{ color:inherit; }
   padding:12px 18px; font-size:13.5px; font-weight:800; cursor:pointer; box-shadow:0 8px 22px rgba(14,21,51,.28);
 }
 
-/* ─────────── VENTANA INDEPENDIENTE · Administración de contactos ─────────── */
-#cvView{ position:fixed; inset:0; z-index:9995; background:var(--page); overflow-y:auto; display:none; }
-#cvView.open{ display:block; }
-.cv-bar{
-  height:76px; background:var(--navy-deep); display:flex; align-items:center; gap:18px; padding:0 26px;
-  position:sticky; top:0; z-index:2;
-}
-.cv-bar .wm{ color:#fff; font-size:20px; font-weight:800; letter-spacing:-.4px; }
-.cv-bar .mod{ color:#AEB7D4; font-size:14px; font-weight:700; padding-left:18px; border-left:1px solid rgba(255,255,255,.18); }
-.cv-back{
-  display:inline-flex; align-items:center; gap:9px; background:rgba(255,255,255,.12); color:#fff;
-  border:none; border-radius:var(--r-pill); padding:10px 18px; font-size:14px; font-weight:800; cursor:pointer;
-}
-.cv-back:hover{ background:rgba(255,255,255,.2); }
-.cv-wrap{ padding:34px 44px 90px; max-width:1300px; }
+/* ─────────── CONTACTOS VINCULADOS · tabs in-page (resumen | gestión) ─────────── */
+.cv-pane{ padding-top:22px; }
 .cv-crumbs{ font-size:13.5px; color:#6B7280; font-weight:700; display:flex; align-items:center; gap:9px; margin-bottom:20px; }
 .cv-crumbs i{ font-size:9px; opacity:.6; }
 .cv-crumbs .cur{ color:var(--navy); }
 .cv-crumbs .lnk{ color:var(--indigo-text); cursor:pointer; }
-.cv-head{ display:flex; align-items:center; gap:16px; margin-bottom:18px; }
-.cv-head .ic{ width:54px; height:54px; border-radius:14px; background:#E9EDF6; color:var(--navy); display:grid; place-items:center; font-size:21px; flex:none; }
-.cv-head h1{ font-size:29px; font-weight:800; color:var(--navy); letter-spacing:-.4px; }
-.cv-head .sub{ font-size:14px; color:var(--muted); margin-top:3px; }
-.cv-head .sp{ flex:1; }
 #cvEdit{ display:none; }
 #cvEdit.open{ display:block; }
 .crow{ display:flex; align-items:center; gap:14px; background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px 18px; margin-bottom:12px; }
@@ -384,7 +366,7 @@ a{ color:inherit; }
 @media (max-width:980px){
   :root{ --side-w:0px; }
   .side{ display:none; }
-  .content, .cv-wrap{ padding:26px 20px 90px; }
+  .content{ padding:26px 20px 90px; }
   .frow{ grid-template-columns:1fr; }
   .flab{ border-right:none; padding-bottom:0; }
 }
@@ -561,6 +543,154 @@ a{ color:inherit; }
 
     <hr class="rule">
 
+    <!-- ══ CONTACTOS VINCULADOS · tabs in-page: resumen | gestión (Documento Maestro §6.4) ══ -->
+    <div class="sec" data-tour="contactos">
+      <div class="sec-h">
+        <h2>Contactos vinculados</h2>
+        <p>Datos de facturación, cobranzas y proveedor de la entidad. Gestiónalos aquí mismo: solo cambia de pestaña.</p>
+      </div>
+
+      <div class="tabs" style="margin-top:0;">
+        <button class="tab on" id="tabCvResumen">Contactos vinculados</button>
+        <button class="tab" id="tabCvGestion">Gestionar contactos</button>
+      </div>
+
+      <!-- TAB 1 · resumen -->
+      <div class="cv-pane" id="paneCvResumen">
+        <div class="crd">
+          <div class="cline">
+            <span class="chip chip-role">Facturación</span>
+            <span class="nm">María García</span><span class="sp"></span>
+            <span class="chip chip-green"><i class="fa-solid fa-circle-check"></i> vigente</span>
+          </div>
+          <div class="cline">
+            <span class="chip chip-role">Cobranzas</span>
+            <span class="nm">Carlos Vega</span><span class="sp"></span>
+            <span class="chip chip-green"><i class="fa-solid fa-circle-check"></i> vigente</span>
+          </div>
+          <div class="cline">
+            <span class="chip chip-role">Proveedor</span>
+            <span class="nm">Ana Ruiz</span><span class="sp"></span>
+            <span class="chip chip-green"><i class="fa-solid fa-circle-check"></i> vigente</span>
+          </div>
+          <div class="cline">
+            <span class="chip chip-role">Técnico/Legal</span>
+            <span class="nm">Luis Mora</span><span class="sp"></span>
+            <span class="chip chip-green"><i class="fa-solid fa-circle-check"></i> vigente</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2 · gestión (antes ventana independiente) -->
+      <div class="cv-pane" id="paneCvGestion" style="display:none;">
+        <div id="cvList">
+          <div style="display:flex; align-items:flex-start; gap:14px; margin-bottom:18px; flex-wrap:wrap;">
+            <div class="alert alert-info" style="flex:1; min-width:320px; margin-bottom:0;">
+              <div class="ai"><i class="fa-solid fa-rotate"></i></div>
+              <div class="ab"><div class="ad" style="margin-top:0;">Se sincronizan con Salesforce · pueden ser usuarios de A+. Actuaria+ es la fuente de verdad hacia adelante.</div></div>
+            </div>
+            <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> Agregar contacto</button>
+          </div>
+
+          <div class="crow">
+            <span class="role"><span class="chip chip-role">Facturación</span></span>
+            <div><div class="n">María García</div><div class="m">facturacion@teojama.com · 0998 001 122</div></div>
+            <span class="sp"></span>
+            <div class="acts">
+              <span class="acc acc-editor"><i class="fa-solid fa-circle-user"></i> Usuario A+ · Editor</span>
+              <button class="btn btn-out btn-sm cv-edit">Editar</button>
+            </div>
+          </div>
+          <div class="crow">
+            <span class="role"><span class="chip chip-role">Cobranzas</span></span>
+            <div><div class="n">Carlos Vega</div><div class="m">cobranzas@teojama.com · 0991 234 567</div></div>
+            <span class="sp"></span>
+            <div class="acts">
+              <span class="acc acc-none">Sin acceso a A+</span>
+              <button class="btn btn-out btn-sm">Invitar a A+</button>
+              <button class="btn btn-out btn-sm cv-edit">Editar</button>
+            </div>
+          </div>
+          <div class="crow">
+            <span class="role"><span class="chip chip-role">Proveedor</span></span>
+            <div><div class="n">Ana Ruiz</div><div class="m">ana.ruiz@proveedor.com · 0987 654 321</div></div>
+            <span class="sp"></span>
+            <div class="acts">
+              <span class="acc acc-none">Sin acceso a A+</span>
+              <button class="btn btn-out btn-sm">Invitar a A+</button>
+              <button class="btn btn-out btn-sm cv-edit">Editar</button>
+            </div>
+          </div>
+          <div class="crow">
+            <span class="role"><span class="chip chip-role">Técnico/Legal</span></span>
+            <div><div class="n">Luis Mora</div><div class="m">luis.mora@teojama.com · 0991 112 233</div></div>
+            <span class="sp"></span>
+            <div class="acts">
+              <span class="acc acc-view"><i class="fa-solid fa-eye"></i> Usuario A+ · Solo vista</span>
+              <button class="btn btn-out btn-sm cv-edit">Editar</button>
+            </div>
+          </div>
+
+          <div class="cv-foot">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>Cualquier cambio en contactos o datos fiscales se sincroniza automáticamente a Salesforce (dependencia técnica del PO). El acceso a A+ se gestiona desde la sección Equipo.</span>
+          </div>
+        </div>
+
+        <!-- EDITAR / REEMPLAZAR -->
+        <div id="cvEdit">
+          <div class="cv-crumbs" style="margin-top:0;">
+            <span class="lnk" id="cvEditBack">‹ Contactos</span>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span class="cur">Reemplazar contacto</span>
+          </div>
+
+          <div class="alert alert-warn" style="margin-bottom:18px;">
+            <div class="ai"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <div class="ab">
+              <div class="at">El contacto anterior no se elimina</div>
+              <div class="ad">Quedará marcado como inactivo, conservando el historial de lo que se le notificó o facturó mientras estuvo vigente.</div>
+            </div>
+          </div>
+
+          <div class="cv-replace">
+            <div class="lbl">Se reemplaza</div>
+            <div class="who" id="cvOldName">María García · facturacion@teojama.com</div>
+            <div class="why">Motivo: ya no trabaja en la empresa (marcado por el cliente)</div>
+          </div>
+
+          <div class="cv-q">Nuevo contacto</div>
+          <div class="cv-formgrid">
+            <div class="cv-field"><div class="fl">Nombre completo</div><input type="text" placeholder="Nombre y apellido"></div>
+            <div class="cv-field"><div class="fl">Correo electrónico</div><input type="email" placeholder="correo@empresa.com"></div>
+            <div class="cv-field"><div class="fl">Teléfono</div><input type="tel" placeholder="09xx xxx xxx"></div>
+            <div class="cv-field"><div class="fl">Cargo (opcional)</div><input type="text" placeholder="Ej. Jefe de cobranzas"></div>
+          </div>
+
+          <div class="cv-q">¿Este contacto también necesita acceso a A+?</div>
+          <div class="seg" id="cvAccesoSeg"><button class="opt on">Sí, invitar a A+</button><button class="opt">No, solo contacto</button></div>
+          <div class="note"><i class="fa-solid fa-circle-info"></i><span>Si eliges "Sí", asignas su rol por módulo en el siguiente paso (mismo mecanismo de Equipo).</span></div>
+
+          <div class="cv-q">Tipo de contacto</div>
+          <div class="ckgroup" id="cvTipoGrp">
+            <span class="ckitem" role="checkbox" aria-checked="false" tabindex="0"><span class="ckbox"><i class="fa-solid fa-check"></i></span>Facturación</span>
+            <span class="ckitem on" role="checkbox" aria-checked="true" tabindex="0"><span class="ckbox"><i class="fa-solid fa-check"></i></span>Cobranzas</span>
+            <span class="ckitem" role="checkbox" aria-checked="false" tabindex="0"><span class="ckbox"><i class="fa-solid fa-check"></i></span>Proveedor</span>
+            <span class="ckitem" role="checkbox" aria-checked="false" tabindex="0"><span class="ckbox"><i class="fa-solid fa-check"></i></span>General</span>
+            <span class="ckitem" role="checkbox" aria-checked="false" tabindex="0"><span class="ckbox"><i class="fa-solid fa-check"></i></span>Técnico/Legal</span>
+          </div>
+          <div class="note" style="margin-top:10px;"><i class="fa-solid fa-circle-info"></i><span>Un mismo contacto puede tener <b>varios roles a la vez</b> — marca todos los que apliquen.</span></div>
+
+          <div class="cv-actions">
+            <button class="btn btn-out" id="cvCancel">Cancelar</button>
+            <button class="btn btn-primary">Guardar reemplazo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="rule">
+
     <!-- ══ AGENTE DE RETENCIÓN (nuevo · DIS-HU2) ══ -->
     <div class="sec" data-tour="retencion">
       <div class="sec-h">
@@ -608,7 +738,7 @@ a{ color:inherit; }
 
     <hr class="rule">
 
-    <!-- ══ PROFORMA / OC + CONTACTOS ══ -->
+    <!-- ══ PROFORMA / OC ══ -->
     <div class="sec">
       <div class="cols">
         <div data-tour="proforma">
@@ -632,32 +762,6 @@ a{ color:inherit; }
           </div>
         </div>
 
-        <div data-tour="contactos">
-          <div class="sec-h">
-            <h2>Contactos vinculados</h2>
-            <p>Datos de facturación y de contacto para cobranzas. Se administran en una ventana independiente.</p>
-          </div>
-          <div class="crd">
-            <div class="cline">
-              <span class="chip chip-role">Facturación</span>
-              <span class="nm">María García</span><span class="sp"></span>
-              <span class="chip chip-green"><i class="fa-solid fa-circle-check"></i> vigente</span>
-            </div>
-            <div class="cline">
-              <span class="chip chip-role">Cobranzas</span>
-              <span class="nm">Carlos Vega</span><span class="sp"></span>
-              <span class="chip chip-green"><i class="fa-solid fa-circle-check"></i> vigente</span>
-            </div>
-            <div class="cline">
-              <span class="chip chip-role">Proveedor</span>
-              <span class="nm">Ana Ruiz</span><span class="sp"></span>
-              <span class="chip chip-green"><i class="fa-solid fa-circle-check"></i> vigente</span>
-            </div>
-          </div>
-          <div style="margin-top:14px;">
-            <button class="btn btn-out" id="btnGestionarContactos">Gestionar contactos <i class="fa-solid fa-arrow-up-right-from-square"></i></button>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -712,12 +816,12 @@ a{ color:inherit; }
     */
     { sel:'[data-tour=pais]', step:"Paso 1 de 5", title:"Campo País (nuevo)",
       text:"Ahora defines el <b>país</b> de la entidad (por defecto Ecuador), junto a Provincia y Ciudad en la información de la empresa." },
-    { sel:'[data-tour=retencion]', step:"Paso 2 de 5", title:"Agente de retención (nuevo)",
+    { sel:'[data-tour=contactos]', step:"Paso 2 de 5", title:"Contactos vinculados",
+      text:"Los contactos de facturación, cobranzas y proveedor con su estado de vigencia. Para administrarlos solo cambia a la pestaña <b>Gestionar contactos</b> — sin salir de esta pantalla. Se sincronizan con Salesforce." },
+    { sel:'[data-tour=retencion]', step:"Paso 3 de 5", title:"Agente de retención (nuevo)",
       text:"Marca si la entidad es <b>agente de retención</b> y consulta los porcentajes de referencia de <b>IR</b> e <b>IVA</b>. A+ solo los muestra; el cálculo ocurre al facturar." },
-    { sel:'[data-tour=proforma]', step:"Paso 3 de 5", title:"Proforma y Orden de Compra",
+    { sel:'[data-tour=proforma]', step:"Paso 4 de 5", title:"Proforma y Orden de Compra",
       text:"Activa la entrega automática de <b>proforma</b> y si tu empresa exige <b>OC</b> antes de aprobar pagos." },
-    { sel:'[data-tour=contactos]', step:"Paso 4 de 5", title:"Contactos vinculados",
-      text:"Los contactos de facturación, cobranzas y proveedor con su estado de vigencia. Se administran en una <b>ventana independiente</b> y se sincronizan con Salesforce." },
     { sel:'[data-tour=checklist]', step:"Paso 5 de 5", title:"Checklist de completitud",
       text:"Una vista rápida de qué está listo y qué falta para operar sin fricción — incluye los tres estados de validación." }
   ];
@@ -796,142 +900,29 @@ a{ color:inherit; }
 })();
 </script>
 
-<!-- ═══ VENTANA INDEPENDIENTE · Administración de contactos (Documento Maestro §6.4) ═══ -->
-<div id="cvView">
-  <div class="cv-bar">
-    <button class="cv-back" id="cvBack"><i class="fa-solid fa-arrow-left"></i> Volver</button>
-    <span class="wm">actuaria+</span>
-    <span class="mod">Entidades registradas</span>
-  </div>
-
-  <div class="cv-wrap">
-    <div class="cv-crumbs">Mis entidades <i class="fa-solid fa-chevron-right"></i> TEOJAMA COMERCIAL <i class="fa-solid fa-chevron-right"></i> <span class="cur">Contactos relacionados</span></div>
-
-    <!-- LISTA · estado estable -->
-    <div id="cvList">
-      <div class="cv-head">
-        <div class="ic"><i class="fa-solid fa-users"></i></div>
-        <div>
-          <h1>Contactos relacionados</h1>
-          <div class="sub"><b>TEOJAMA COMERCIAL S.A.</b> · RUC 1790010309001</div>
-        </div>
-        <span class="sp"></span>
-        <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> Agregar contacto</button>
-      </div>
-
-      <div class="alert alert-info" style="margin-bottom:18px;">
-        <div class="ai"><i class="fa-solid fa-rotate"></i></div>
-        <div class="ab"><div class="ad" style="margin-top:0;">Se sincronizan con Salesforce · pueden ser usuarios de A+. Actuaria+ es la fuente de verdad hacia adelante.</div></div>
-      </div>
-
-      <div class="crow">
-        <span class="role"><span class="chip chip-role">Facturación</span></span>
-        <div><div class="n">María García</div><div class="m">facturacion@teojama.com · 0998 001 122</div></div>
-        <span class="sp"></span>
-        <div class="acts">
-          <span class="acc acc-editor"><i class="fa-solid fa-circle-user"></i> Usuario A+ · Editor</span>
-          <button class="btn btn-out btn-sm cv-edit">Editar</button>
-        </div>
-      </div>
-      <div class="crow">
-        <span class="role"><span class="chip chip-role">Cobranzas</span></span>
-        <div><div class="n">Carlos Vega</div><div class="m">cobranzas@teojama.com · 0991 234 567</div></div>
-        <span class="sp"></span>
-        <div class="acts">
-          <span class="acc acc-none">Sin acceso a A+</span>
-          <button class="btn btn-out btn-sm">Invitar a A+</button>
-          <button class="btn btn-out btn-sm cv-edit">Editar</button>
-        </div>
-      </div>
-      <div class="crow">
-        <span class="role"><span class="chip chip-role">Proveedor</span></span>
-        <div><div class="n">Ana Ruiz</div><div class="m">ana.ruiz@proveedor.com · 0987 654 321</div></div>
-        <span class="sp"></span>
-        <div class="acts">
-          <span class="acc acc-none">Sin acceso a A+</span>
-          <button class="btn btn-out btn-sm">Invitar a A+</button>
-          <button class="btn btn-out btn-sm cv-edit">Editar</button>
-        </div>
-      </div>
-      <div class="crow">
-        <span class="role"><span class="chip chip-role">Técnico/Legal</span></span>
-        <div><div class="n">Luis Mora</div><div class="m">luis.mora@teojama.com · 0991 112 233</div></div>
-        <span class="sp"></span>
-        <div class="acts">
-          <span class="acc acc-view"><i class="fa-solid fa-eye"></i> Usuario A+ · Solo vista</span>
-          <button class="btn btn-out btn-sm cv-edit">Editar</button>
-        </div>
-      </div>
-
-      <div class="cv-foot">
-        <i class="fa-solid fa-circle-info"></i>
-        <span>Cualquier cambio en contactos o datos fiscales se sincroniza automáticamente a Salesforce (dependencia técnica del PO). El acceso a A+ se gestiona desde la sección Equipo.</span>
-      </div>
-    </div>
-
-    <!-- EDITAR / REEMPLAZAR -->
-    <div id="cvEdit">
-      <div class="cv-crumbs" style="margin-top:0;">
-        <span class="lnk" id="cvEditBack">‹ Contactos</span>
-        <i class="fa-solid fa-chevron-right"></i>
-        <span class="cur">Reemplazar contacto</span>
-      </div>
-
-      <div class="alert alert-warn" style="margin-bottom:18px;">
-        <div class="ai"><i class="fa-solid fa-triangle-exclamation"></i></div>
-        <div class="ab">
-          <div class="at">El contacto anterior no se elimina</div>
-          <div class="ad">Quedará marcado como inactivo, conservando el historial de lo que se le notificó o facturó mientras estuvo vigente.</div>
-        </div>
-      </div>
-
-      <div class="cv-replace">
-        <div class="lbl">Se reemplaza</div>
-        <div class="who" id="cvOldName">María García · facturacion@teojama.com</div>
-        <div class="why">Motivo: ya no trabaja en la empresa (marcado por el cliente)</div>
-      </div>
-
-      <div class="cv-q">Nuevo contacto</div>
-      <div class="cv-formgrid">
-        <div class="cv-field"><div class="fl">Nombre completo</div><input type="text" placeholder="Nombre y apellido"></div>
-        <div class="cv-field"><div class="fl">Correo electrónico</div><input type="email" placeholder="correo@empresa.com"></div>
-        <div class="cv-field"><div class="fl">Teléfono</div><input type="tel" placeholder="09xx xxx xxx"></div>
-        <div class="cv-field"><div class="fl">Cargo (opcional)</div><input type="text" placeholder="Ej. Jefe de cobranzas"></div>
-      </div>
-
-      <div class="cv-q">¿Este contacto también necesita acceso a A+?</div>
-      <div class="seg" id="cvAccesoSeg"><button class="opt on">Sí, invitar a A+</button><button class="opt">No, solo contacto</button></div>
-      <div class="note"><i class="fa-solid fa-circle-info"></i><span>Si eliges "Sí", asignas su rol por módulo en el siguiente paso (mismo mecanismo de Equipo).</span></div>
-
-      <div class="cv-q">Tipo de contacto</div>
-      <div class="ckgroup" id="cvTipoGrp">
-        <span class="ckitem" role="checkbox" aria-checked="false" tabindex="0"><span class="ckbox"><i class="fa-solid fa-check"></i></span>Facturación</span>
-        <span class="ckitem on" role="checkbox" aria-checked="true" tabindex="0"><span class="ckbox"><i class="fa-solid fa-check"></i></span>Cobranzas</span>
-        <span class="ckitem" role="checkbox" aria-checked="false" tabindex="0"><span class="ckbox"><i class="fa-solid fa-check"></i></span>Proveedor</span>
-        <span class="ckitem" role="checkbox" aria-checked="false" tabindex="0"><span class="ckbox"><i class="fa-solid fa-check"></i></span>General</span>
-        <span class="ckitem" role="checkbox" aria-checked="false" tabindex="0"><span class="ckbox"><i class="fa-solid fa-check"></i></span>Técnico/Legal</span>
-      </div>
-      <div class="note" style="margin-top:10px;"><i class="fa-solid fa-circle-info"></i><span>Un mismo contacto puede tener <b>varios roles a la vez</b> — marca todos los que apliquen.</span></div>
-
-      <div class="cv-actions">
-        <button class="btn btn-out" id="cvCancel">Cancelar</button>
-        <button class="btn btn-primary">Guardar reemplazo</button>
-      </div>
-    </div>
-
-  </div>
-</div>
-
 <script>
+/* Contactos vinculados: tabs in-page (resumen | gestión). La gestión vive en la
+   pestaña "Gestionar contactos" — ya no hay ventana independiente. */
 (function(){
-  var view=document.getElementById('cvView');
   var list=document.getElementById('cvList');
   var edit=document.getElementById('cvEdit');
-  if(!view) return;
+  if(!list) return;
+  var tabResumen=document.getElementById('tabCvResumen');
+  var tabGestion=document.getElementById('tabCvGestion');
+  var paneResumen=document.getElementById('paneCvResumen');
+  var paneGestion=document.getElementById('paneCvGestion');
 
-  function openView(){ view.classList.add('open'); showList(); document.body.style.overflow='hidden'; }
-  function closeView(){ view.classList.remove('open'); document.body.style.overflow=''; }
-  function showList(){ edit.classList.remove('open'); list.style.display='block'; view.scrollTop=0; }
+  function switchTab(gestion){
+    tabResumen.classList.toggle('on', !gestion);
+    tabGestion.classList.toggle('on', gestion);
+    paneResumen.style.display = gestion ? 'none' : 'block';
+    paneGestion.style.display = gestion ? 'block' : 'none';
+    if(gestion) showList(); /* siempre entra por la lista, no por el form */
+  }
+  tabResumen.onclick=function(){ switchTab(false); };
+  tabGestion.onclick=function(){ switchTab(true); };
+
+  function showList(){ edit.classList.remove('open'); list.style.display='block'; }
   function showEdit(row){
     if(row){
       var n=row.querySelector('.n'), m=row.querySelector('.m');
@@ -948,11 +939,10 @@ a{ color:inherit; }
         });
       }
     }
-    list.style.display='none'; edit.classList.add('open'); view.scrollTop=0;
+    list.style.display='none'; edit.classList.add('open');
+    edit.scrollIntoView({ block:'nearest', behavior:'smooth' });
   }
 
-  var g=document.getElementById('btnGestionarContactos'); if(g) g.onclick=openView;
-  var b=document.getElementById('cvBack'); if(b) b.onclick=closeView;
   var eb=document.getElementById('cvEditBack'); if(eb) eb.onclick=showList;
   var cc=document.getElementById('cvCancel'); if(cc) cc.onclick=showList;
   Array.prototype.forEach.call(document.querySelectorAll('.cv-edit'), function(btn){
@@ -983,9 +973,8 @@ a{ color:inherit; }
     });
   }
   document.addEventListener('keydown', function(e){
-    if(e.key==='Escape' && view.classList.contains('open')){
-      if(edit.classList.contains('open')) showList(); else closeView();
-    }
+    /* Esc dentro de la gestión: vuelve del form a la lista */
+    if(e.key==='Escape' && paneGestion.style.display!=='none' && edit.classList.contains('open')) showList();
   });
 })();
 </script>
