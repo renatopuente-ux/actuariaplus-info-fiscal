@@ -437,9 +437,12 @@ a{ color:inherit; }
     <div class="tabs">
       <button class="tab">Datos del usuario</button>
       <button class="tab">Contraseña</button>
-      <button class="tab on">Entidades registradas</button>
+      <button class="tab on" id="tabEntidades">Entidades registradas</button>
+      <button class="tab" id="tabContactosTop" data-tour="contactos">Contactos vinculados</button>
       <button class="tab">Equipo</button>
     </div>
+
+    <div class="pane-entidades">
 
     <div class="actionrow">
       <button class="btn btn-out btn-pill"><i class="fa-solid fa-arrow-left"></i> Regresar</button>
@@ -543,46 +546,16 @@ a{ color:inherit; }
 
     <hr class="rule">
 
-    <!-- ══ CONTACTOS VINCULADOS · tabs in-page: resumen | gestión (Documento Maestro §6.4) ══ -->
-    <div class="sec" data-tour="contactos">
+    </div><!-- /pane-entidades (parte 1) -->
+
+    <!-- ══ CONTACTOS VINCULADOS · pestaña de primer nivel (Documento Maestro §6.4) ══ -->
+    <div class="sec" id="paneContactosTop" style="display:none;">
       <div class="sec-h">
         <h2>Contactos vinculados</h2>
-        <p>Datos de facturación, cobranzas y proveedor de la entidad. Gestiónalos aquí mismo: solo cambia de pestaña.</p>
+        <p>Datos de facturación, cobranzas y proveedor de la entidad. Se sincronizan con Salesforce.</p>
       </div>
 
-      <div class="tabs" style="margin-top:0;">
-        <button class="tab on" id="tabCvResumen">Contactos vinculados</button>
-        <button class="tab" id="tabCvGestion">Gestionar contactos</button>
-      </div>
-
-      <!-- TAB 1 · resumen -->
-      <div class="cv-pane" id="paneCvResumen">
-        <div class="crd">
-          <div class="cline">
-            <span class="chip chip-role">Facturación</span>
-            <span class="nm">María García</span><span class="sp"></span>
-            <span class="chip chip-green"><i class="fa-solid fa-circle-check"></i> vigente</span>
-          </div>
-          <div class="cline">
-            <span class="chip chip-role">Cobranzas</span>
-            <span class="nm">Carlos Vega</span><span class="sp"></span>
-            <span class="chip chip-green"><i class="fa-solid fa-circle-check"></i> vigente</span>
-          </div>
-          <div class="cline">
-            <span class="chip chip-role">Proveedor</span>
-            <span class="nm">Ana Ruiz</span><span class="sp"></span>
-            <span class="chip chip-green"><i class="fa-solid fa-circle-check"></i> vigente</span>
-          </div>
-          <div class="cline">
-            <span class="chip chip-role">Técnico/Legal</span>
-            <span class="nm">Luis Mora</span><span class="sp"></span>
-            <span class="chip chip-green"><i class="fa-solid fa-circle-check"></i> vigente</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- TAB 2 · gestión (antes ventana independiente) -->
-      <div class="cv-pane" id="paneCvGestion" style="display:none;">
+      <div class="cv-pane" style="padding-top:4px;">
         <div id="cvList">
           <div style="display:flex; align-items:flex-start; gap:14px; margin-bottom:18px; flex-wrap:wrap;">
             <div class="alert alert-info" style="flex:1; min-width:320px; margin-bottom:0;">
@@ -689,7 +662,7 @@ a{ color:inherit; }
       </div>
     </div>
 
-    <hr class="rule">
+    <div class="pane-entidades">
 
     <!-- ══ AGENTE DE RETENCIÓN (nuevo · DIS-HU2) ══ -->
     <div class="sec" data-tour="retencion">
@@ -791,6 +764,8 @@ a{ color:inherit; }
       <span class="guardar-hint" id="guardarHint"><i class="fa-solid fa-triangle-exclamation"></i> Completa el checklist para guardar</span>
     </div>
 
+    </div><!-- /pane-entidades (parte 2) -->
+
     <div class="footnote">
       Prototipo de diseño · DIS-HU2 (ACTAF-5236) · lenguaje visual adoptado de la plataforma Actuaria+ v1.11.2 · Agosto 2026
     </div>
@@ -819,7 +794,7 @@ a{ color:inherit; }
     { sel:'[data-tour=pais]', step:"Paso 1 de 5", title:"Campo País (nuevo)",
       text:"Ahora defines el <b>país</b> de la entidad (por defecto Ecuador), junto a Provincia y Ciudad en la información de la empresa." },
     { sel:'[data-tour=contactos]', step:"Paso 2 de 5", title:"Contactos vinculados",
-      text:"Los contactos de facturación, cobranzas y proveedor con su estado de vigencia. Para administrarlos solo cambia a la pestaña <b>Gestionar contactos</b> — sin salir de esta pantalla. Se sincronizan con Salesforce." },
+      text:"Los contactos de facturación, cobranzas y proveedor ahora tienen su <b>propia pestaña</b>, junto a Entidades registradas. Ahí los ves y los gestionas — todo en un solo lugar, sincronizado con Salesforce." },
     { sel:'[data-tour=retencion]', step:"Paso 3 de 5", title:"Agente de retención (nuevo)",
       text:"Marca si la entidad es <b>agente de retención</b> y consulta los porcentajes de referencia de <b>IR</b> e <b>IVA</b>. A+ solo los muestra; el cálculo ocurre al facturar." },
     { sel:'[data-tour=proforma]', step:"Paso 4 de 5", title:"Proforma y Orden de Compra",
@@ -903,26 +878,28 @@ a{ color:inherit; }
 </script>
 
 <script>
-/* Contactos vinculados: tabs in-page (resumen | gestión). La gestión vive en la
-   pestaña "Gestionar contactos" — ya no hay ventana independiente. */
+/* Contactos vinculados como pestaña de PRIMER NIVEL (junto a Datos del usuario /
+   Contraseña / Entidades registradas / Equipo). Una sola vista unificada:
+   lista de gestión + form de reemplazo. */
 (function(){
   var list=document.getElementById('cvList');
   var edit=document.getElementById('cvEdit');
   if(!list) return;
-  var tabResumen=document.getElementById('tabCvResumen');
-  var tabGestion=document.getElementById('tabCvGestion');
-  var paneResumen=document.getElementById('paneCvResumen');
-  var paneGestion=document.getElementById('paneCvGestion');
+  var tabEnt=document.getElementById('tabEntidades');
+  var tabCon=document.getElementById('tabContactosTop');
+  var paneCon=document.getElementById('paneContactosTop');
+  var panesEnt=document.querySelectorAll('.pane-entidades');
 
-  function switchTab(gestion){
-    tabResumen.classList.toggle('on', !gestion);
-    tabGestion.classList.toggle('on', gestion);
-    paneResumen.style.display = gestion ? 'none' : 'block';
-    paneGestion.style.display = gestion ? 'block' : 'none';
-    if(gestion) showList(); /* siempre entra por la lista, no por el form */
+  function switchTab(contactos){
+    tabEnt.classList.toggle('on', !contactos);
+    tabCon.classList.toggle('on', contactos);
+    Array.prototype.forEach.call(panesEnt, function(p){ p.style.display = contactos ? 'none' : 'block'; });
+    paneCon.style.display = contactos ? 'block' : 'none';
+    if(contactos) showList(); /* siempre entra por la lista, no por el form */
+    window.scrollTo({ top: 0 });
   }
-  tabResumen.onclick=function(){ switchTab(false); };
-  tabGestion.onclick=function(){ switchTab(true); };
+  tabEnt.onclick=function(){ switchTab(false); };
+  tabCon.onclick=function(){ switchTab(true); };
 
   function showList(){ edit.classList.remove('open'); list.style.display='block'; }
   function showEdit(row){
@@ -975,8 +952,8 @@ a{ color:inherit; }
     });
   }
   document.addEventListener('keydown', function(e){
-    /* Esc dentro de la gestión: vuelve del form a la lista */
-    if(e.key==='Escape' && paneGestion.style.display!=='none' && edit.classList.contains('open')) showList();
+    /* Esc dentro de contactos: vuelve del form a la lista */
+    if(e.key==='Escape' && paneCon.style.display!=='none' && edit.classList.contains('open')) showList();
   });
 })();
 </script>
