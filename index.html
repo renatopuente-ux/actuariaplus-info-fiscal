@@ -775,11 +775,13 @@ a{ color:inherit; }
       </div>
       <div class="chks">
         <div class="chk"><span class="st ok"><i class="fa-solid fa-check"></i></span> RUC y razón social verificados</div>
+        <!-- OCULTO TEMPORALMENTE (3 checks de validación) 2026-08-04 - restaurar quitando este comentario y el "FIN OCULTO" del cierre
         <div class="chk"><span class="st err"><i class="fa-solid fa-xmark"></i></span> Estado de entidad activo <span class="chip chip-red" style="margin-left:6px;">suspendida</span></div>
-        <div class="chk"><span class="st ok"><i class="fa-solid fa-check"></i></span> Contacto de facturación vigente</div>
         <div class="chk"><span class="st warn"><i class="fa-solid fa-exclamation"></i></span> RUC vigente ante el SRI</div>
-        <div class="chk"><span class="st ok"><i class="fa-solid fa-check"></i></span> Preferencia de proforma/OC definida</div>
         <div class="chk"><span class="st warn"><i class="fa-solid fa-exclamation"></i></span> Cuenta bancaria de devoluciones</div>
+        FIN OCULTO TEMPORALMENTE (3 checks de validación) -->
+        <div class="chk"><span class="st ok"><i class="fa-solid fa-check"></i></span> Contacto de facturación vigente</div>
+        <div class="chk"><span class="st ok"><i class="fa-solid fa-check"></i></span> Preferencia de proforma/OC definida</div>
       </div>
     </div>
 
@@ -823,7 +825,7 @@ a{ color:inherit; }
     { sel:'[data-tour=proforma]', step:"Paso 4 de 5", title:"Proforma y Orden de Compra",
       text:"Activa la entrega automática de <b>proforma</b> y si tu empresa exige <b>OC</b> antes de aprobar pagos." },
     { sel:'[data-tour=checklist]', step:"Paso 5 de 5", title:"Checklist de completitud",
-      text:"Una vista rápida de qué está listo y qué falta para operar sin fricción — incluye los tres estados de validación." }
+      text:"Una vista rápida de qué está listo y qué falta para operar sin fricción. Cuando todo está en verde, se habilita <b>Guardar</b>." }
   ];
   var i = 0, mask, spot, pop, launch;
 
